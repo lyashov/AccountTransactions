@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://medbrat.ml:5432/projectdb
+    driver-class-name: org.postgresql.Driver
+    username: winner
+    password: pass
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: 8080
