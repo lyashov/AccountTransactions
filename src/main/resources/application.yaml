@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:postgresql://medbrat.ml:5432/projectdb
+    url: jdbc:postgresql://localhost:5432/postgres
     driver-class-name: org.postgresql.Driver
-    username: winner
-    password: pass
+    username: postgres
+    password: 123
 
   jpa:
     show-sql: true
