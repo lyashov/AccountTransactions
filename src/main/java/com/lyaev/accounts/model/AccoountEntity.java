@@ -18,7 +18,7 @@ public class AccoountEntity {
     public String name;
 
     @Column(name = "AMOUNT")
-    public String amount;
+    public Long amount;
 
     @Column(name = "DATE_OPEN")
     public Date dateOpen;
