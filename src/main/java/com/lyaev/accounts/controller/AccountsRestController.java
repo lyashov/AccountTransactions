@@ -3,10 +3,8 @@ package com.lyaev.accounts.controller;
 import com.lyaev.accounts.model.AccoountEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,23 +15,21 @@ public class AccountsRestController {
 
     @GetMapping
     public List<AccoountEntity> getAllAccounts(){
-
+        return null;
     }
 
     @GetMapping("{account}")
-    public  AccoountEntity getAccount(){
-
+    public  AccoountEntity getAccount(@PathVariable String account, Model model){
+        return null;
     }
 
     @PostMapping("/debit/{account}")
-    public AccoountEntity debitOperation(){
-
+    public AccoountEntity debitOperation(@PathVariable String account, Model model){
+        return null;
     }
 
     @PostMapping("/credit/{account}")
     public AccoountEntity creditOperation(){
-
+        return null;
     }
-
-
 }
