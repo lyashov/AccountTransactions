@@ -6,11 +6,14 @@ import com.lyaev.accounts.model.OperationsEntity;
 import com.lyaev.accounts.repository.AccountRepository;
 import com.lyaev.accounts.repository.OperationsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OperationsService {
@@ -20,22 +23,22 @@ public class OperationsService {
     @Autowired
     AccountService accountService;
 
-    public Long moneyToCoins(Double money){
-        Double coins = money * 100;
-        return coins.longValue();
-    }
 
     @Transactional
     public OperationsEntity addOperation(OperationJSON operationJSON){
         if (operationJSON == null) return null;
+        String accountName = operationJSON.getAccountName();
         OperationsEntity operation = new OperationsEntity();
-        AccountEntity account = accountService.findByName(operationJSON.getAccountName());
+        AccountEntity account = accountService.findByName(accountName);
         operation.setAccountEntity(account);
-        Long sumOperation = moneyToCoins(operationJSON.getSumm());
+        BigDecimal sumOperation = operationJSON.getSumm();
         if (operationJSON.getIsDebit() == 1) operation.setSummDebit(sumOperation);
          else  operation.setSummCredit(sumOperation);
-        return operationsRepository.save(operation);
+        OperationsEntity operationsEntity = operationsRepository.save(operation);
+        accountService.updateAmount(accountName);
+        return operationsEntity;
     }
+
 
    /* public AccountEntity findByName(String name){
         return accountRepository.findByName(name);
@@ -50,11 +53,12 @@ public class OperationsService {
         }
     }
 
- /*   @Transactional
-    public void deleteAccount(String name){
-        if ((name != null)&&(name != "")) {
-            AccountEntity account = findByName(name);
-            accountRepository.delete(account);
+    @Transactional
+    public void deleteById(String accountName, Long id){
+        Optional<OperationsEntity> operation = operationsRepository.findById(id);
+        if (operation.isPresent() && operation.get().getAccountEntity().getName().equals(accountName)){
+            operationsRepository.deleteById(id);
+            accountService.updateAmount(accountName);
         }
-    }*/
+    }
 }

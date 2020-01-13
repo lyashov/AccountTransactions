@@ -3,6 +3,7 @@ package com.lyaev.accounts.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Data
 @Entity
@@ -21,11 +22,11 @@ public class OperationsEntity {
      * All operations are saved to database in coin! To avoid rounding errors.
      */
     @Column(name = "SUMM_DEBIT")
-    private Long summDebit;
+    private BigDecimal summDebit;
 
     /**
      * All operations are saved to database in coin! To avoid rounding errors.
      */
     @Column(name = "SUMM_CREDIT")
-    private Long summCredit;
+    private BigDecimal summCredit;
 }

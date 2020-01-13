@@ -3,6 +3,7 @@ package com.lyaev.accounts.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
@@ -18,7 +19,7 @@ public class AccountEntity {
     private String name;
 
     @Column(name = "AMOUNT")
-    private Long amount;
+    private BigDecimal amount;
 
     @Column(name = "DATE_OPEN")
     private Date dateOpen;

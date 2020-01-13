@@ -18,6 +18,10 @@ public class OperationsRestController {
 
     private static final Logger logger = LoggerFactory.getLogger(OperationsRestController.class);
 
+    private void updateAmount(String accountName){
+
+    }
+
     /**
      * URL example http://localhost:8080//api/operations/accTest1
      * Get all account's operations.
@@ -38,9 +42,14 @@ public class OperationsRestController {
         return operationsService.addOperation(operationJSON);
     }
 
-/*    @DeleteMapping("{name}")
-    public void deleteAccount(
-            @PathVariable String name){
-        accountService.deleteAccount(name);
-    }*/
+    /**
+     * URL example http://localhost:8080/api/operations/accTest1/7
+     * Delete operation by ID
+     */
+    @DeleteMapping("{accountName}/{id}")
+    public void deleteOperationByID(
+            @PathVariable String accountName,
+            @PathVariable Long id){
+        operationsService.deleteById(accountName, id);
+    }
 }
