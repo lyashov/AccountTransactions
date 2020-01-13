@@ -8,22 +8,22 @@ import java.util.Date;
 @Data
 @Entity
 @Table(name="ACCOUNT")
-public class AccoountEntity {
+public class AccountEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name="ID", nullable = false)
-    public Long id;
+    private Long id;
 
     @Column(name = "NAME", nullable = false)
-    public String name;
+    private String name;
 
     @Column(name = "AMOUNT")
-    public Long amount;
+    private Long amount;
 
     @Column(name = "DATE_OPEN")
-    public Date dateOpen;
+    private Date dateOpen;
 
     @Column(name = "DATE_CLOSED")
-    public Date dateClosed;
+    private Date dateClosed;
 
 }

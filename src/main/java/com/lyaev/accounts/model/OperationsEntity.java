@@ -11,20 +11,21 @@ public class OperationsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "ID")
-    public Long id;
+    private Long id;
 
-    @Column(name = "ACCOUNT_ID")
-    public Long account_id;
+    @ManyToOne (optional=false, fetch = FetchType.EAGER)
+    @JoinColumn (name="account_id",referencedColumnName="id")
+    private AccountEntity accountEntity;
 
     /**
      * All operations are saved to database in coin! To avoid rounding errors.
      */
     @Column(name = "SUMM_DEBIT")
-    public Long summDebit;
+    private Long summDebit;
 
     /**
      * All operations are saved to database in coin! To avoid rounding errors.
      */
     @Column(name = "SUMM_CREDIT")
-    public Long summCredit;
+    private Long summCredit;
 }
