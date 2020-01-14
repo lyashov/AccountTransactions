@@ -33,19 +33,12 @@ public class AccountService {
 
     public BigDecimal summDedit(String accountName) {
         BigDecimal amountDebit = operationsRepository.summDebit(accountName);
-        return amountDebit == null ? new BigDecimal("0") : amountDebit;
+        return amountDebit == null ? new BigDecimal("0.0") : amountDebit;
     }
 
     public BigDecimal summCredit(String accountName) {
         BigDecimal amountCredit = operationsRepository.summCredit(accountName);
-        return amountCredit == null ? new BigDecimal("0") : amountCredit;
-    }
-
-    public void updateAmount(OperationsEntity operationsEntity){
-        if (operationsEntity == null) return;
-        if (operationsEntity.getAccountEntity() == null) return;
-        String accountName = operationsEntity.getAccountEntity().getName();
-        updateAmount(accountName);
+        return amountCredit == null ? new BigDecimal("0.0") : amountCredit;
     }
 
     public void updateAmount(String accountName){

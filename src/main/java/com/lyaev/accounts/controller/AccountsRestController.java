@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @RestController
@@ -28,14 +29,15 @@ public class AccountsRestController {
     }
 
     /**
-     * URL examplehttp://localhost:8080/api/accounts/accTest1
-     * request body (json) {"name":"accTest1", "dateOpen":"2019-01-01T23:28:56.782Z"}
+     * URL example http://localhost:8080/api/accounts
+     * request body (json) {"name":"accTest1", "amount":"0.0", "dateOpen":"2020-01-01T23:28:56.782Z"}
      * if found account by name, then replace it
      */
+    @Transactional
     @PutMapping
     public AccountEntity createOrUpdateAccount(
             @RequestBody AccountEntity account){
-        logger.info("creating or update account");
+        logger.info("creating or updating account");
         return accountService.createOrUpdateAccount(account);
     }
 
@@ -43,6 +45,7 @@ public class AccountsRestController {
      * http://localhost:8080/api/accounts/accTest1
      * Delete account by name
      */
+    @Transactional
     @DeleteMapping("{name}")
     public void deleteAccount(
             @PathVariable String name){

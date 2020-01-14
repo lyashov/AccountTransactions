@@ -1,5 +1,6 @@
 package com.lyaev.accounts.controller;
 
+import com.lyaev.accounts.model.OperationJSON;
 import com.lyaev.accounts.model.OperationsEntity;
 import com.lyaev.accounts.service.AccountService;
 import com.lyaev.accounts.service.OperationsService;
@@ -33,18 +34,18 @@ public class OperationsRestController {
     }
 
     /**
-     * URL example http://localhost:8080/api/operations/accTest1
-     * request body (json)  {"accountName":"accTest1","summ":33.5,"isDebit":"1"}
+     * URL example http://localhost:8080/api/operations
+     * request body (json)  {"accountName":"accTest1","summ":500.5, "isDebit":1}
      * if found account by name, then replace
      */
     @Transactional
-    @PutMapping("{accountName}")
+    @PutMapping
     public OperationsEntity addOperation(
-            @RequestBody OperationsEntity operationsEntity){
+            @RequestBody OperationJSON operationsJson){
         logger.info("adding new operation");
-        OperationsEntity operation = operationsService.addOperation(operationsEntity);
+        OperationsEntity operation = operationsService.addOperation(operationsJson);
         logger.info("updating ammount");
-        accountService.updateAmount(operationsEntity);
+        accountService.updateAmount(operationsJson.getAccountName());
         return operation;
     }
 

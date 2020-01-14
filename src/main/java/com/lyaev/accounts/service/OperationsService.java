@@ -1,12 +1,14 @@
 package com.lyaev.accounts.service;
 
 import com.lyaev.accounts.model.AccountEntity;
+import com.lyaev.accounts.model.OperationJSON;
 import com.lyaev.accounts.model.OperationsEntity;
 import com.lyaev.accounts.repository.OperationsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,17 +21,17 @@ public class OperationsService {
     @Autowired
     AccountService accountService;
 
-    public OperationsEntity addOperation(OperationsEntity operationFromJSON){
-        if (operationFromJSON == null) return null;
-        if (operationFromJSON.getAccountEntity() == null) return null;
-        String accountName = operationFromJSON.getAccountEntity().getName();
-        AccountEntity account = accountService.findByName(accountName);
+    public OperationsEntity addOperation(OperationJSON operationJSON){
+        if (operationJSON == null) return null;
+        String accountName = operationJSON.getAccountName();
         OperationsEntity operation = new OperationsEntity();
+        AccountEntity account = accountService.findByName(accountName);
         operation.setAccountEntity(account);
-        operation.setSummCredit(operationFromJSON.getSummDebit());
-        operation.setSummCredit(operationFromJSON.getSummDebit());
-        OperationsEntity operationsSaved = operationsRepository.save(operation);
-        return operationsSaved;
+        BigDecimal sumOperation = operationJSON.getSumm();
+        if (operationJSON.getIsDebit() == 1) operation.setSummDebit(sumOperation);
+        else  operation.setSummCredit(sumOperation);
+        OperationsEntity operationsEntity = operationsRepository.save(operation);
+        return operationsEntity;
     }
 
     public List<OperationsEntity> getAllOperationsByAccountName(String accountName){

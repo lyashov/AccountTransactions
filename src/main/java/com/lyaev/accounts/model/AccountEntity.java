@@ -16,9 +16,6 @@ public class AccountEntity {
     @Column(name="ID", nullable = false)
     private Long id;
 
-    @OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OperationsEntity> operations;
-
     @Column(name = "NAME", nullable = false)
     private String name;
 
