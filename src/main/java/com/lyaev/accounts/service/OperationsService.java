@@ -19,9 +19,7 @@ public class OperationsService {
     @Autowired
     AccountService accountService;
 
-
-    @Transactional
-    public OperationsEntity addOperationAndUpdateAmount(OperationsEntity operationFromJSON){
+    public OperationsEntity addOperation(OperationsEntity operationFromJSON){
         if (operationFromJSON == null) return null;
         if (operationFromJSON.getAccountEntity() == null) return null;
         String accountName = operationFromJSON.getAccountEntity().getName();
@@ -31,7 +29,6 @@ public class OperationsService {
         operation.setSummCredit(operationFromJSON.getSummDebit());
         operation.setSummCredit(operationFromJSON.getSummDebit());
         OperationsEntity operationsSaved = operationsRepository.save(operation);
-        accountService.updateAmount(accountName);
         return operationsSaved;
     }
 
@@ -44,12 +41,10 @@ public class OperationsService {
         }
     }
 
-    @Transactional
-    public void deleteByIdAndUpdateAmount(String accountName, Long id){
+    public void deleteById(String accountName, Long id){
         Optional<OperationsEntity> operation = operationsRepository.findById(id);
         if (operation.isPresent() && operation.get().getAccountEntity().getName().equals(accountName)){
             operationsRepository.deleteById(id);
-            accountService.updateAmount(accountName);
         }
     }
 }

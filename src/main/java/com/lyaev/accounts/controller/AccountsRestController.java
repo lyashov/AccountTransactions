@@ -23,6 +23,7 @@ public class AccountsRestController {
      */
     @GetMapping
     public List<AccountEntity> getAllAccounts(){
+        logger.info("getting all accounts");
         return accountService.getAllAccounts();
     }
 
@@ -32,9 +33,10 @@ public class AccountsRestController {
      * if found account by name, then replace it
      */
     @PutMapping
-    public AccountEntity saveOrCreateAccount(
+    public AccountEntity createOrUpdateAccount(
             @RequestBody AccountEntity account){
-        return accountService.saveOrCreateAccount(account);
+        logger.info("creating or update account");
+        return accountService.createOrUpdateAccount(account);
     }
 
     /**
@@ -44,6 +46,7 @@ public class AccountsRestController {
     @DeleteMapping("{name}")
     public void deleteAccount(
             @PathVariable String name){
+        logger.info("deleting account");
         accountService.deleteAccount(name);
     }
 }

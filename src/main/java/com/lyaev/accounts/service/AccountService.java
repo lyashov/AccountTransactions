@@ -1,6 +1,7 @@
 package com.lyaev.accounts.service;
 
 import com.lyaev.accounts.model.AccountEntity;
+import com.lyaev.accounts.model.OperationsEntity;
 import com.lyaev.accounts.repository.AccountRepository;
 import com.lyaev.accounts.repository.OperationsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,7 @@ public class AccountService {
     @Autowired
     OperationsRepository operationsRepository;
 
-    @Transactional
-    public AccountEntity saveOrCreateAccount(AccountEntity account){
+    public AccountEntity createOrUpdateAccount(AccountEntity account){
         if (account == null) return null;
         AccountEntity accountTemp = findByName(account.getName());
         if (accountTemp != null){
@@ -41,7 +41,13 @@ public class AccountService {
         return amountCredit == null ? new BigDecimal("0") : amountCredit;
     }
 
-    @Transactional
+    public void updateAmount(OperationsEntity operationsEntity){
+        if (operationsEntity == null) return;
+        if (operationsEntity.getAccountEntity() == null) return;
+        String accountName = operationsEntity.getAccountEntity().getName();
+        updateAmount(accountName);
+    }
+
     public void updateAmount(String accountName){
         if ((accountName == null)&&(accountName.equals(""))) return;
         AccountEntity account = findByName(accountName);
@@ -66,7 +72,6 @@ public class AccountService {
         }
     }
 
-    @Transactional
     public void deleteAccount(String name){
         if ((name != null)&&(name != "")) {
             AccountEntity account = findByName(name);

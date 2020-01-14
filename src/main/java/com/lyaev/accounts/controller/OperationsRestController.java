@@ -1,12 +1,14 @@
 package com.lyaev.accounts.controller;
 
 import com.lyaev.accounts.model.OperationsEntity;
+import com.lyaev.accounts.service.AccountService;
 import com.lyaev.accounts.service.OperationsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @RestController
@@ -14,6 +16,9 @@ import java.util.List;
 public class OperationsRestController {
     @Autowired
     OperationsService operationsService;
+
+    @Autowired
+    AccountService accountService;
 
     private static final Logger logger = LoggerFactory.getLogger(OperationsRestController.class);
 
@@ -23,6 +28,7 @@ public class OperationsRestController {
      */
     @GetMapping("{accountName}")
     public List<OperationsEntity> getAllOperationsByAccount(@PathVariable String accountName){
+        logger.info("getting all operations by account name" + accountName);
         return operationsService.getAllOperationsByAccountName(accountName);
     }
 
@@ -31,20 +37,29 @@ public class OperationsRestController {
      * request body (json)  {"accountName":"accTest1","summ":33.5,"isDebit":"1"}
      * if found account by name, then replace
      */
+    @Transactional
     @PutMapping("{accountName}")
     public OperationsEntity addOperation(
             @RequestBody OperationsEntity operationsEntity){
-        return operationsService.addOperationAndUpdateAmount(operationsEntity);
+        logger.info("adding new operation");
+        OperationsEntity operation = operationsService.addOperation(operationsEntity);
+        logger.info("updating ammount");
+        accountService.updateAmount(operationsEntity);
+        return operation;
     }
 
     /**
      * URL example http://localhost:8080/api/operations/accTest1/7
      * Delete operation by ID
      */
+    @Transactional
     @DeleteMapping("{accountName}/{id}")
     public void deleteOperationByID(
             @PathVariable String accountName,
             @PathVariable Long id){
-        operationsService.deleteByIdAndUpdateAmount(accountName, id);
+        logger.info("deleting operation");
+        operationsService.deleteById(accountName, id);
+        logger.info("updating ammount");
+        accountService.updateAmount(accountName);
     }
 }
