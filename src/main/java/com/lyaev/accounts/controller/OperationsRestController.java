@@ -1,6 +1,5 @@
 package com.lyaev.accounts.controller;
 
-import com.lyaev.accounts.model.OperationJSON;
 import com.lyaev.accounts.model.OperationsEntity;
 import com.lyaev.accounts.service.OperationsService;
 import org.slf4j.Logger;
@@ -18,10 +17,6 @@ public class OperationsRestController {
 
     private static final Logger logger = LoggerFactory.getLogger(OperationsRestController.class);
 
-    private void updateAmount(String accountName){
-
-    }
-
     /**
      * URL example http://localhost:8080//api/operations/accTest1
      * Get all account's operations.
@@ -38,8 +33,8 @@ public class OperationsRestController {
      */
     @PutMapping("{accountName}")
     public OperationsEntity addOperation(
-            @RequestBody OperationJSON operationJSON){
-        return operationsService.addOperation(operationJSON);
+            @RequestBody OperationsEntity operationsEntity){
+        return operationsService.addOperationAndUpdateAmount(operationsEntity);
     }
 
     /**
@@ -50,6 +45,6 @@ public class OperationsRestController {
     public void deleteOperationByID(
             @PathVariable String accountName,
             @PathVariable Long id){
-        operationsService.deleteById(accountName, id);
+        operationsService.deleteByIdAndUpdateAmount(accountName, id);
     }
 }

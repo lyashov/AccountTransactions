@@ -1,16 +1,12 @@
 package com.lyaev.accounts.service;
 
 import com.lyaev.accounts.model.AccountEntity;
-import com.lyaev.accounts.model.OperationJSON;
 import com.lyaev.accounts.model.OperationsEntity;
-import com.lyaev.accounts.repository.AccountRepository;
 import com.lyaev.accounts.repository.OperationsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,24 +21,19 @@ public class OperationsService {
 
 
     @Transactional
-    public OperationsEntity addOperation(OperationJSON operationJSON){
-        if (operationJSON == null) return null;
-        String accountName = operationJSON.getAccountName();
-        OperationsEntity operation = new OperationsEntity();
+    public OperationsEntity addOperationAndUpdateAmount(OperationsEntity operationFromJSON){
+        if (operationFromJSON == null) return null;
+        if (operationFromJSON.getAccountEntity() == null) return null;
+        String accountName = operationFromJSON.getAccountEntity().getName();
         AccountEntity account = accountService.findByName(accountName);
+        OperationsEntity operation = new OperationsEntity();
         operation.setAccountEntity(account);
-        BigDecimal sumOperation = operationJSON.getSumm();
-        if (operationJSON.getIsDebit() == 1) operation.setSummDebit(sumOperation);
-         else  operation.setSummCredit(sumOperation);
-        OperationsEntity operationsEntity = operationsRepository.save(operation);
+        operation.setSummCredit(operationFromJSON.getSummDebit());
+        operation.setSummCredit(operationFromJSON.getSummDebit());
+        OperationsEntity operationsSaved = operationsRepository.save(operation);
         accountService.updateAmount(accountName);
-        return operationsEntity;
+        return operationsSaved;
     }
-
-
-   /* public AccountEntity findByName(String name){
-        return accountRepository.findByName(name);
-    }*/
 
     public List<OperationsEntity> getAllOperationsByAccountName(String accountName){
         List<OperationsEntity> operations = operationsRepository.findAllByAccountEntity_Name(accountName);
@@ -54,7 +45,7 @@ public class OperationsService {
     }
 
     @Transactional
-    public void deleteById(String accountName, Long id){
+    public void deleteByIdAndUpdateAmount(String accountName, Long id){
         Optional<OperationsEntity> operation = operationsRepository.findById(id);
         if (operation.isPresent() && operation.get().getAccountEntity().getName().equals(accountName)){
             operationsRepository.deleteById(id);
