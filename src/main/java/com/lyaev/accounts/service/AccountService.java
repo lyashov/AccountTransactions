@@ -20,7 +20,7 @@ public class AccountService {
 
     public AccountEntity createOrUpdateAccount(AccountEntity account){
         if (account == null) return null;
-        AccountEntity accountTemp = findByName(account.getName());
+        AccountEntity accountTemp = accountRepository.findByName(account.getName());
         if (accountTemp != null){
             accountTemp.setAmount(account.getAmount());
             accountTemp.setDateOpen(account.getDateOpen());
@@ -29,29 +29,25 @@ public class AccountService {
         return accountRepository.save(account);
     }
 
-    public BigDecimal summDedit(String accountName) {
+    private BigDecimal summDedit(String accountName) {
         BigDecimal amountDebit = operationsRepository.summDebit(accountName);
         return amountDebit == null ? new BigDecimal("0.0") : amountDebit;
     }
 
-    public BigDecimal summCredit(String accountName) {
+    private BigDecimal summCredit(String accountName) {
         BigDecimal amountCredit = operationsRepository.summCredit(accountName);
         return amountCredit == null ? new BigDecimal("0.0") : amountCredit;
     }
 
     public void updateAmount(String accountName){
         if ((accountName == null)&&(accountName.equals(""))) return;
-        AccountEntity account = findByName(accountName);
+        AccountEntity account = accountRepository.findByName(accountName);
         if (account != null){
             BigDecimal amountDebit = summDedit(accountName);
             BigDecimal amountCredit = summCredit(accountName);
             account.setAmount(amountDebit.subtract(amountCredit));
             accountRepository.save(account);
         }
-    }
-
-    public AccountEntity findByName(String name){
-        return accountRepository.findByName(name);
     }
 
     public List<AccountEntity> getAllAccounts(){
@@ -65,7 +61,7 @@ public class AccountService {
 
     public void deleteAccount(String name){
         if ((name != null)&&(name != "")) return;
-        AccountEntity account = findByName(name);
+        AccountEntity account = accountRepository.findByName(name);
         if (account != null){
             accountRepository.delete(account);
         }

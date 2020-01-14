@@ -3,6 +3,7 @@ package com.lyaev.accounts.service;
 import com.lyaev.accounts.model.AccountEntity;
 import com.lyaev.accounts.model.OperationJSON;
 import com.lyaev.accounts.model.OperationsEntity;
+import com.lyaev.accounts.repository.AccountRepository;
 import com.lyaev.accounts.repository.OperationsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,13 +20,16 @@ public class OperationsService {
     OperationsRepository operationsRepository;
 
     @Autowired
+    AccountRepository accountRepository;
+
+    @Autowired
     AccountService accountService;
 
     public OperationsEntity addOperation(OperationJSON operationJSON){
         if (operationJSON == null) return null;
         String accountName = operationJSON.getAccountName();
         OperationsEntity operation = new OperationsEntity();
-        AccountEntity account = accountService.findByName(accountName);
+        AccountEntity account = accountRepository.findByName(accountName);
         operation.setAccountEntity(account);
         BigDecimal sumOperation = operationJSON.getSumm();
         if (operationJSON.getIsDebit() == 1) operation.setSummDebit(sumOperation);
