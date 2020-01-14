@@ -1,13 +1,11 @@
 package com.lyaev.accounts.service;
 
 import com.lyaev.accounts.model.AccountEntity;
-import com.lyaev.accounts.model.OperationsEntity;
 import com.lyaev.accounts.repository.AccountRepository;
 import com.lyaev.accounts.repository.OperationsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,8 +64,9 @@ public class AccountService {
     }
 
     public void deleteAccount(String name){
-        if ((name != null)&&(name != "")) {
-            AccountEntity account = findByName(name);
+        if ((name != null)&&(name != "")) return;
+        AccountEntity account = findByName(name);
+        if (account != null){
             accountRepository.delete(account);
         }
     }
