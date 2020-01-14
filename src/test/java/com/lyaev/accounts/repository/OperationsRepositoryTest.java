@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 class OperationsRepositoryTest {
@@ -37,6 +37,7 @@ class OperationsRepositoryTest {
     }
 
     @Test
+    @Transactional
     void findAllByAccountEntity_Name() {
         AccountEntity account = createTestAccount();
         accountRepository.save(account);
