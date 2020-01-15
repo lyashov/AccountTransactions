@@ -99,8 +99,4 @@ class OperationsRestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString(jsonResponse)));
     }
-
-    @Test
-    void deleteOperationByID() {
-    }
 }
