@@ -14,13 +14,13 @@ public class OperationsEntity {
     @Column(name = "ID")
     private Long id;
 
-    @ManyToOne (optional=false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn (name="account_id",referencedColumnName="id")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
     private AccountEntity accountEntity;
 
-    @Column(name = "SUMM_DEBIT", precision=19, scale=6)
+    @Column(name = "SUMM_DEBIT", precision = 19, scale = 6)
     private BigDecimal summDebit;
 
-    @Column(name = "SUMM_CREDIT", precision=19, scale=6)
+    @Column(name = "SUMM_CREDIT", precision = 19, scale = 6)
     private BigDecimal summCredit;
 }

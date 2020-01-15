@@ -28,7 +28,7 @@ public class OperationsRestController {
      * Get all account's operations.
      */
     @GetMapping("{accountName}")
-    public List<OperationsEntity> getAllOperationsByAccount(@PathVariable String accountName){
+    public List<OperationsEntity> getAllOperationsByAccount(@PathVariable String accountName) {
         logger.info("getting all operations by account name: " + accountName);
         return operationsService.getAllOperationsByAccountName(accountName);
     }
@@ -41,7 +41,7 @@ public class OperationsRestController {
     @Transactional
     @PutMapping
     public OperationsEntity addOperation(
-            @RequestBody OperationJSON operationsJson){
+            @RequestBody OperationJSON operationsJson) {
         logger.info("adding new operation");
         OperationsEntity operation = operationsService.addOperation(operationsJson);
         logger.info("updating ammount");
@@ -57,7 +57,7 @@ public class OperationsRestController {
     @DeleteMapping("{accountName}/{id}")
     public void deleteOperationByID(
             @PathVariable String accountName,
-            @PathVariable Long id){
+            @PathVariable Long id) {
         logger.info("deleting operation");
         operationsService.deleteById(accountName, id);
         logger.info("updating ammount");

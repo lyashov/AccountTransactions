@@ -9,17 +9,17 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name="ACCOUNT")
+@Table(name = "ACCOUNT")
 public class AccountEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name="ID", nullable = false)
+    @Column(name = "ID", nullable = false)
     private Long id;
 
     @Column(name = "NAME", nullable = false)
     private String name;
 
-    @Column(name = "AMOUNT", precision=19, scale=6)
+    @Column(name = "AMOUNT", precision = 19, scale = 6)
     private BigDecimal amount;
 
     @Column(name = "DATE_OPEN")

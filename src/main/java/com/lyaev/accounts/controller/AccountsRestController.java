@@ -23,7 +23,7 @@ public class AccountsRestController {
      * Get all accounts.
      */
     @GetMapping
-    public List<AccountEntity> getAllAccounts(){
+    public List<AccountEntity> getAllAccounts() {
         logger.info("getting all accounts");
         return accountService.getAllAccounts();
     }
@@ -36,7 +36,7 @@ public class AccountsRestController {
     @Transactional
     @PutMapping
     public AccountEntity createOrUpdateAccount(
-            @RequestBody AccountEntity account){
+            @RequestBody AccountEntity account) {
         logger.info("creating or updating account");
         return accountService.createOrUpdateAccount(account);
     }
@@ -48,7 +48,7 @@ public class AccountsRestController {
     @Transactional
     @DeleteMapping("{name}")
     public void deleteAccount(
-            @PathVariable String name){
+            @PathVariable String name) {
         logger.info("deleting account");
         accountService.deleteAccount(name);
     }

@@ -18,7 +18,7 @@ class AccountRepositoryTest {
     @Autowired
     AccountRepository accountRepository;
 
-    private AccountEntity createTestAccount(){
+    private AccountEntity createTestAccount() {
         AccountEntity account = new AccountEntity();
         account.setName("testAccount");
         account.setAmount(new BigDecimal("100"));
@@ -32,7 +32,7 @@ class AccountRepositoryTest {
         accountRepository.save(account);
         List<AccountEntity> accounts = accountRepository.findAll();
         Assert.assertTrue(accounts.size() > 0);
-        for (AccountEntity acc:accounts) {
+        for (AccountEntity acc : accounts) {
             accountRepository.delete(acc);
         }
     }

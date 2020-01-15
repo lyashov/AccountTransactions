@@ -24,12 +24,12 @@ public class OperationsService {
     @Autowired
     AccountService accountService;
 
-    public BigDecimal getPermissibleSumOperation(String accountName, BigDecimal sumOperation){
+    public BigDecimal getPermissibleSumOperation(String accountName, BigDecimal sumOperation) {
         BigDecimal amountSum = accountService.getSummAccount(accountName);
         return (sumOperation.min(amountSum));
     }
 
-    public OperationsEntity addOperation(OperationJSON operationJSON){
+    public OperationsEntity addOperation(OperationJSON operationJSON) {
         if (operationJSON == null) return null;
         String accountName = operationJSON.getAccountName();
         OperationsEntity operation = new OperationsEntity();
@@ -46,18 +46,18 @@ public class OperationsService {
         return operationsEntity;
     }
 
-    public List<OperationsEntity> getAllOperationsByAccountName(String accountName){
+    public List<OperationsEntity> getAllOperationsByAccountName(String accountName) {
         List<OperationsEntity> operations = operationsRepository.findAllByAccountEntity_Name(accountName);
-        if(operations.size() > 0) {
+        if (operations.size() > 0) {
             return operations;
         } else {
             return new ArrayList<OperationsEntity>();
         }
     }
 
-    public void deleteById(String accountName, Long id){
+    public void deleteById(String accountName, Long id) {
         Optional<OperationsEntity> operation = operationsRepository.findById(id);
-        if (operation.isPresent() && operation.get().getAccountEntity().getName().equals(accountName)){
+        if (operation.isPresent() && operation.get().getAccountEntity().getName().equals(accountName)) {
             operationsRepository.deleteById(id);
         }
     }
