@@ -24,7 +24,7 @@ public class OperationsRestController {
     private static final Logger logger = LoggerFactory.getLogger(OperationsRestController.class);
 
     /**
-     * URL example http://localhost:8080//api/operations/accTest1
+     * URL example GET http://localhost:8080//api/operations/accTest1
      * Get all account's operations.
      */
     @GetMapping("{accountName}")
@@ -34,7 +34,7 @@ public class OperationsRestController {
     }
 
     /**
-     * URL example http://localhost:8080/api/operations
+     * URL example PUT http://localhost:8080/api/operations
      * request body (json)  {"accountName":"accTest1","summ":500.5, "isDebit":1}
      * Create a new operation. Update account's amount.
      */
@@ -50,7 +50,7 @@ public class OperationsRestController {
     }
 
     /**
-     * URL example http://localhost:8080/api/operations/accTest1/7
+     * URL example DELETE http://localhost:8080/api/operations/accTest1/7
      * Delete operation by ID
      */
     @Transactional

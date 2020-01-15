@@ -19,7 +19,7 @@ public class AccountsRestController {
     private static final Logger logger = LoggerFactory.getLogger(AccountsRestController.class);
 
     /**
-     * URL example http://localhost:8080/api/accounts
+     * URL example GET http://localhost:8080/api/accounts
      * Get all accounts.
      */
     @GetMapping
@@ -29,7 +29,7 @@ public class AccountsRestController {
     }
 
     /**
-     * URL example http://localhost:8080/api/accounts
+     * URL example PUT http://localhost:8080/api/accounts
      * request body (json) {"name":"accTest1", "amount":"0.0", "dateOpen":"2020-01-01T23:28:56.782Z"}
      * if found account by name, then replace it
      */
@@ -42,7 +42,7 @@ public class AccountsRestController {
     }
 
     /**
-     * http://localhost:8080/api/accounts/accTest1
+     * DELETE http://localhost:8080/api/accounts/accTest1
      * Delete account by name
      */
     @Transactional
