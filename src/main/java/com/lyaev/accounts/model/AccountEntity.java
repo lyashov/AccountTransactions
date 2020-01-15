@@ -19,7 +19,7 @@ public class AccountEntity {
     @Column(name = "NAME", nullable = false)
     private String name;
 
-    @Column(name = "AMOUNT")
+    @Column(name = "AMOUNT", precision=19, scale=6)
     private BigDecimal amount;
 
     @Column(name = "DATE_OPEN")

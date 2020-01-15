@@ -21,12 +21,12 @@ public class OperationsEntity {
     /**
      * All operations are saved to database in coin! To avoid rounding errors.
      */
-    @Column(name = "SUMM_DEBIT")
+    @Column(name = "SUMM_DEBIT", precision=19, scale=6)
     private BigDecimal summDebit;
 
     /**
      * All operations are saved to database in coin! To avoid rounding errors.
      */
-    @Column(name = "SUMM_CREDIT")
+    @Column(name = "SUMM_CREDIT", precision=19, scale=6)
     private BigDecimal summCredit;
 }

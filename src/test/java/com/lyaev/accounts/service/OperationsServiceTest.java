@@ -35,7 +35,7 @@ class OperationsServiceTest {
         OperationJSON operation = new OperationJSON();
         operation.setAccountName("testAccount");
         operation.setIsDebit((byte) 1);
-        operation.setSumm(new BigDecimal("100.0"));
+        operation.setSumm(new BigDecimal("100.5"));
         return operation;
     }
 
@@ -48,7 +48,7 @@ class OperationsServiceTest {
     private OperationsEntity createTestOperation(){
         OperationsEntity operation = new OperationsEntity();
         operation.setAccountEntity(createTestAccount());
-        operation.setSummCredit(new BigDecimal("100"));
+        operation.setSummCredit(new BigDecimal("100.5"));
         return operation;
     }
 

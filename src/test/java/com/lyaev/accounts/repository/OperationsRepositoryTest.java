@@ -25,14 +25,14 @@ class OperationsRepositoryTest {
     private AccountEntity createTestAccount(){
         AccountEntity account = new AccountEntity();
         account.setName("testAccount");
-        account.setAmount(new BigDecimal("100"));
+        account.setAmount(new BigDecimal("100.5"));
         return account;
     }
 
     private OperationsEntity createTestOperation(){
         OperationsEntity operation = new OperationsEntity();
         operation.setAccountEntity(createTestAccount());
-        operation.setSummCredit(new BigDecimal("100"));
+        operation.setSummCredit(new BigDecimal("100.5"));
         return operation;
     }
 
