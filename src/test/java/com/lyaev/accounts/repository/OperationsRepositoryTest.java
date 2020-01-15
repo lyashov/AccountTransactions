@@ -40,14 +40,14 @@ class OperationsRepositoryTest {
     @Transactional
     void findAllByAccountEntity_Name() {
         AccountEntity account = createTestAccount();
-        accountRepository.save(account);
+        AccountEntity accountFromBase = accountRepository.save(account);
+        Assert.assertEquals(account, accountFromBase);
+        accountRepository.delete(accountFromBase);
+
 
         OperationsEntity operation = createTestOperation();
-        operationsRepository.save(operation);
-        List<OperationsEntity> operations = operationsRepository.findAllByAccountEntity_Name(account.getName());
-        Assert.assertTrue(operations.size() > 0);
-        for (OperationsEntity op:operations) {
-            operationsRepository.delete(op);
-        }
+        OperationsEntity operationFromBase = operationsRepository.save(operation);
+        Assert.assertEquals(operation, operationFromBase);
+        operationsRepository.delete(operationFromBase);
     }
 }
