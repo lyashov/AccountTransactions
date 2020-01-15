@@ -39,13 +39,15 @@ public class AccountService {
         return amountCredit == null ? new BigDecimal("0.0") : amountCredit;
     }
 
+    public BigDecimal getSummAccount(String accountName){
+        return summDedit(accountName).subtract(summCredit(accountName));
+    }
+
     public void updateAmount(String accountName){
         if ((accountName == null)&&(accountName.equals(""))) return;
         AccountEntity account = accountRepository.findByName(accountName);
         if (account != null){
-            BigDecimal amountDebit = summDedit(accountName);
-            BigDecimal amountCredit = summCredit(accountName);
-            account.setAmount(amountDebit.subtract(amountCredit));
+            account.setAmount(getSummAccount(accountName));
             accountRepository.save(account);
         }
     }

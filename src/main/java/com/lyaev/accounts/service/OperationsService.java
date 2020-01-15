@@ -24,6 +24,11 @@ public class OperationsService {
     @Autowired
     AccountService accountService;
 
+    public BigDecimal getPermissibleSumOperation(String accountName, BigDecimal sumOperation){
+        BigDecimal amountSum = accountService.getSummAccount(accountName);
+        return (sumOperation.min(amountSum));
+    }
+
     public OperationsEntity addOperation(OperationJSON operationJSON){
         if (operationJSON == null) return null;
         String accountName = operationJSON.getAccountName();
@@ -31,8 +36,12 @@ public class OperationsService {
         AccountEntity account = accountRepository.findByName(accountName);
         operation.setAccountEntity(account);
         BigDecimal sumOperation = operationJSON.getSumm();
-        if (operationJSON.getIsDebit() == 1) operation.setSummDebit(sumOperation);
-        else  operation.setSummCredit(sumOperation);
+        if (operationJSON.getIsDebit() == 1)
+            operation.setSummDebit(sumOperation);
+        else {
+            BigDecimal permSumm = getPermissibleSumOperation(accountName, sumOperation);
+            operation.setSummCredit(permSumm);
+        }
         OperationsEntity operationsEntity = operationsRepository.save(operation);
         return operationsEntity;
     }
