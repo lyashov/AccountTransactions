@@ -24,8 +24,4 @@ public class AccountEntity {
 
     @Column(name = "DATE_OPEN")
     private Date dateOpen;
-
-    @Column(name = "DATE_CLOSED")
-    private Date dateClosed;
-
 }
