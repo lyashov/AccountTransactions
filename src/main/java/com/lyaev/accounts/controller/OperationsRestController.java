@@ -29,14 +29,14 @@ public class OperationsRestController {
      */
     @GetMapping("{accountName}")
     public List<OperationsEntity> getAllOperationsByAccount(@PathVariable String accountName){
-        logger.info("getting all operations by account name" + accountName);
+        logger.info("getting all operations by account name: " + accountName);
         return operationsService.getAllOperationsByAccountName(accountName);
     }
 
     /**
      * URL example http://localhost:8080/api/operations
      * request body (json)  {"accountName":"accTest1","summ":500.5, "isDebit":1}
-     * if found account by name, then replace
+     * Create a new operation. Update account's amount.
      */
     @Transactional
     @PutMapping
