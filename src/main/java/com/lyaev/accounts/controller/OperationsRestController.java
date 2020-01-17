@@ -7,9 +7,10 @@ import com.lyaev.accounts.service.OperationsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @RestController
@@ -38,7 +39,7 @@ public class OperationsRestController {
      * request body (json)  {"accountName":"accTest1","summ":500.5, "isDebit":1}
      * Create a new operation. Update account's amount.
      */
-    @Transactional
+    @Transactional(isolation= Isolation.REPEATABLE_READ)
     @PutMapping
     public OperationsEntity addOperation(
             @RequestBody OperationJSON operationsJson) {
@@ -53,7 +54,7 @@ public class OperationsRestController {
      * URL example DELETE http://localhost:8080/api/operations/accTest1/7
      * Delete operation by ID
      */
-    @Transactional
+    @Transactional(isolation= Isolation.REPEATABLE_READ)
     @DeleteMapping("{accountName}/{id}")
     public void deleteOperationByID(
             @PathVariable String accountName,
