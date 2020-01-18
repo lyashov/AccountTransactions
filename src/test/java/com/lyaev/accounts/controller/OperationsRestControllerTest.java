@@ -6,6 +6,8 @@ import com.lyaev.accounts.model.OperationJSON;
 import com.lyaev.accounts.model.OperationsEntity;
 import com.lyaev.accounts.service.AccountService;
 import com.lyaev.accounts.service.OperationsService;
+import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,32 +41,31 @@ class OperationsRestControllerTest {
     @MockBean
     AccountService accountService;
 
-    private AccountEntity createTestAccount(){
-        AccountEntity account = new AccountEntity();
-        account.setName("testAccount");
-        account.setAmount(new BigDecimal("0.0"));
-        return account;
-    }
+    AccountEntity account = new AccountEntity();
+    OperationJSON operationJSON = new OperationJSON();
+    OperationsEntity operation = new OperationsEntity();
 
-    private OperationJSON createTestOperationJSON(){
-        OperationJSON operation = new OperationJSON();
-        operation.setAccountName("testAccount");
-        operation.setIsDebit((byte) 1);
-        operation.setSumm(new BigDecimal("100.0"));
-        return operation;
-    }
+    @BeforeEach
+    public void BeforeTests(){
+        final String ACCOUNT_NAME = "testAccount";
+        final byte IS_DEBIT = 1;
+        BigDecimal initSum = new BigDecimal("0.0");
 
-    private OperationsEntity createTestOperation(){
-        OperationsEntity operation = new OperationsEntity();
-        operation.setAccountEntity(createTestAccount());
-        operation.setSummCredit(new BigDecimal("100"));
-        return operation;
+        account.setName(ACCOUNT_NAME);
+        account.setAmount(initSum);
+
+        operationJSON.setAccountName(ACCOUNT_NAME);
+        operationJSON.setIsDebit(IS_DEBIT);
+        operationJSON.setSumm(initSum);
+
+        operation.setAccountEntity(account);
+        operation.setSummCredit(initSum);
     }
 
     @Test
     void getAllOperationsByAccount() throws Exception {
         List<OperationsEntity> operations = new ArrayList<>();
-        operations.add(createTestOperation());
+        operations.add(operation);
 
         when(operationsService.getAllOperationsByAccountName("testAccount")).thenReturn(operations);
 
@@ -82,14 +83,11 @@ class OperationsRestControllerTest {
 
     @Test
     void addOperation() throws Exception {
-        OperationJSON operation = createTestOperationJSON();
-        OperationsEntity operationsEntity = createTestOperation();
-
-        when(operationsService.addOperation(operation)).thenReturn(operationsEntity);
+        when(operationsService.addOperation(operationJSON)).thenReturn(operation);
 
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonRequest = objectMapper.writeValueAsString(operation);
-        String jsonResponse = objectMapper.writeValueAsString(operationsEntity);
+        String jsonResponse = objectMapper.writeValueAsString(operation);
 
         this.mockMvc.perform(
                 put("/api/operations")

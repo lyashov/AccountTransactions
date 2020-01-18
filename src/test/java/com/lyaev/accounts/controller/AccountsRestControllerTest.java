@@ -3,6 +3,7 @@ package com.lyaev.accounts.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lyaev.accounts.model.AccountEntity;
 import com.lyaev.accounts.service.AccountService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
@@ -34,18 +36,21 @@ class AccountsRestControllerTest {
     @MockBean
     AccountService accountService;
 
-    private AccountEntity createTestAccount(){
-        AccountEntity account = new AccountEntity();
-        account.setName("testAccount");
-        account.setAmount(new BigDecimal("100.5"));
-        return account;
-    }
+    AccountEntity account = new AccountEntity();
+    @BeforeEach
+     public void BeforeTests(){
+        final String ACCOUNT_NAME = "testAccount";
+        BigDecimal initSum = new BigDecimal("0.0");
 
+        account.setName(ACCOUNT_NAME);
+        account.setAmount(initSum);
+        account.setDateOpen(new Date());
+    }
 
     @Test
     public void getAllAccounts() throws Exception {
         List<AccountEntity> accounts = new ArrayList<>();
-        accounts.add(createTestAccount());
+        accounts.add(account);
 
         when(accountService.getAllAccounts()).thenReturn(accounts);
 
@@ -63,8 +68,6 @@ class AccountsRestControllerTest {
 
     @Test
     void createOrUpdateAccount() throws Exception {
-        AccountEntity account = createTestAccount();
-
         when(accountService.createOrUpdateAccount(account)).thenReturn(account);
 
         ObjectMapper objectMapper = new ObjectMapper();

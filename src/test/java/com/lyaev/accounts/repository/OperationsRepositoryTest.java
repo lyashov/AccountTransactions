@@ -1,8 +1,11 @@
 package com.lyaev.accounts.repository;
 
 import com.lyaev.accounts.model.AccountEntity;
+import com.lyaev.accounts.model.OperationJSON;
 import com.lyaev.accounts.model.OperationsEntity;
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,30 +25,28 @@ class OperationsRepositoryTest {
     @Autowired
     OperationsRepository operationsRepository;
 
-    private AccountEntity createTestAccount(){
-        AccountEntity account = new AccountEntity();
-        account.setName("testAccount");
-        account.setAmount(new BigDecimal("100.5"));
-        return account;
-    }
+    AccountEntity account = new AccountEntity();
+    OperationsEntity operation = new OperationsEntity();
 
-    private OperationsEntity createTestOperation(){
-        OperationsEntity operation = new OperationsEntity();
-        operation.setAccountEntity(createTestAccount());
-        operation.setSummCredit(new BigDecimal("100.5"));
-        return operation;
+    @BeforeEach
+    public void BeforeTests(){
+        final String ACCOUNT_NAME = "testAccount";
+        BigDecimal initSum = new BigDecimal("0.0");
+
+        account.setName(ACCOUNT_NAME);
+        account.setAmount(initSum);
+
+        operation.setAccountEntity(account);
+        operation.setSummCredit(initSum);
     }
 
     @Test
     @Transactional
     void findAllByAccountEntity_Name() {
-        AccountEntity account = createTestAccount();
         AccountEntity accountFromBase = accountRepository.save(account);
         Assert.assertEquals(account, accountFromBase);
         accountRepository.delete(accountFromBase);
 
-
-        OperationsEntity operation = createTestOperation();
         OperationsEntity operationFromBase = operationsRepository.save(operation);
         Assert.assertEquals(operation, operationFromBase);
         operationsRepository.delete(operationFromBase);

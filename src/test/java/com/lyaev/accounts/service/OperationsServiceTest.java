@@ -6,6 +6,8 @@ import com.lyaev.accounts.model.OperationsEntity;
 import com.lyaev.accounts.repository.AccountRepository;
 import com.lyaev.accounts.repository.OperationsRepository;
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,41 +33,38 @@ class OperationsServiceTest {
     @Autowired
     OperationsService operationsService;
 
-    private OperationJSON createTestOperationJSON(){
-        OperationJSON operation = new OperationJSON();
-        operation.setAccountName("testAccount");
-        operation.setIsDebit((byte) 1);
-        operation.setSumm(new BigDecimal("100.5"));
-        return operation;
-    }
+    AccountEntity account = new AccountEntity();
+    OperationJSON operationJSON = new OperationJSON();
+    OperationsEntity operation = new OperationsEntity();
 
-    private AccountEntity createTestAccount(){
-        AccountEntity account = new AccountEntity();
-        account.setName("testAccount");
-        account.setAmount(new BigDecimal("0.0"));
-        return account;
-    }
-    private OperationsEntity createTestOperation(){
-        OperationsEntity operation = new OperationsEntity();
-        operation.setAccountEntity(createTestAccount());
-        operation.setSummCredit(new BigDecimal("100.5"));
-        return operation;
+    @BeforeEach
+    public void BeforeTests(){
+        final String ACCOUNT_NAME = "testAccount";
+        final byte IS_DEBIT = 1;
+        BigDecimal initSum = new BigDecimal("0.0");
+
+        account.setName(ACCOUNT_NAME);
+        account.setAmount(initSum);
+
+        operationJSON.setAccountName(ACCOUNT_NAME);
+        operationJSON.setIsDebit(IS_DEBIT);
+        operationJSON.setSumm(initSum);
+
+        operation.setAccountEntity(account);
+        operation.setSummCredit(initSum);
     }
 
     @Test
     void addOperation() {
-        OperationJSON operation = createTestOperationJSON();
-        OperationsEntity operationsEntity = createTestOperation();
-        AccountEntity accountEntity = createTestAccount();
-        when(accountRepository.findByName(any(String.class))).thenReturn(accountEntity);
-        when(operationsRepository.save(any(OperationsEntity.class))).thenReturn(operationsEntity);
-        Assert.assertEquals(operationsService.addOperation(operation), operationsEntity);
+        when(accountRepository.findByName(any(String.class))).thenReturn(account);
+        when(operationsRepository.save(any(OperationsEntity.class))).thenReturn(operation);
+        Assert.assertEquals(operationsService.addOperation(operationJSON), operation);
     }
 
     @Test
     void getAllOperationsByAccountName() {
         List<OperationsEntity> operations = new ArrayList<>();
-        operations.add(createTestOperation());
+        operations.add(operation);
         when(operationsRepository.findAllByAccountEntity_Name(any(String.class))).thenReturn(operations);
         Assert.assertEquals(operationsService.getAllOperationsByAccountName("testAccount"), operations);
     }

@@ -1,9 +1,13 @@
 package com.lyaev.accounts.service;
 
 import com.lyaev.accounts.model.AccountEntity;
+import com.lyaev.accounts.model.OperationJSON;
+import com.lyaev.accounts.model.OperationsEntity;
 import com.lyaev.accounts.repository.AccountRepository;
 import com.lyaev.accounts.repository.OperationsRepository;
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,16 +31,18 @@ class AccountServiceTest {
     @Autowired
     AccountService accountService;
 
-    private AccountEntity createTestAccount(){
-        AccountEntity account = new AccountEntity();
-        account.setName("testAccount");
-        account.setAmount(new BigDecimal("100.5"));
-        return account;
+    AccountEntity account = new AccountEntity();
+    @BeforeEach
+    public void BeforeTests(){
+        final String ACCOUNT_NAME = "testAccount";
+        BigDecimal initSum = new BigDecimal("0.0");
+
+        account.setName(ACCOUNT_NAME);
+        account.setAmount(initSum);
     }
 
     @Test
     void createOrUpdateAccount() {
-        AccountEntity account = createTestAccount();
         when(accountRepository.findByName(any(String.class))).thenReturn(account);
         when(accountRepository.save(any(AccountEntity.class))).thenReturn(account);
         Assert.assertEquals(accountService.createOrUpdateAccount(account), account);
@@ -45,7 +51,7 @@ class AccountServiceTest {
     @Test
     void getAllAccounts() {
         List<AccountEntity> accounts = new ArrayList<>();
-        accounts.add(createTestAccount());
+        accounts.add(account);
         when(accountRepository.findAll()).thenReturn(accounts);
         Assert.assertEquals(accountService.getAllAccounts(), accounts);
     }
