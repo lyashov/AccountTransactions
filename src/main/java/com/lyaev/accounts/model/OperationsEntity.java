@@ -14,7 +14,7 @@ public class OperationsEntity {
     @Column(name = "ID")
     private Long id;
 
-    @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     private AccountEntity accountEntity;
 

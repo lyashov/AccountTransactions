@@ -1,12 +1,9 @@
 package com.lyaev.accounts.service;
 
 import com.lyaev.accounts.model.AccountEntity;
-import com.lyaev.accounts.model.OperationJSON;
-import com.lyaev.accounts.model.OperationsEntity;
 import com.lyaev.accounts.repository.AccountRepository;
 import com.lyaev.accounts.repository.OperationsRepository;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;

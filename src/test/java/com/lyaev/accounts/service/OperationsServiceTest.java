@@ -6,7 +6,6 @@ import com.lyaev.accounts.model.OperationsEntity;
 import com.lyaev.accounts.repository.AccountRepository;
 import com.lyaev.accounts.repository.OperationsRepository;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +17,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -29,6 +31,9 @@ class OperationsServiceTest {
     AccountRepository accountRepository;
     @MockBean
     OperationsRepository operationsRepository;
+
+    @Autowired
+    ThreadOperation threadOperation;
 
     @Autowired
     OperationsService operationsService;
