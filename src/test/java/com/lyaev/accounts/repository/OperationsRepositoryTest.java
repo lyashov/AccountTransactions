@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -25,30 +26,32 @@ class OperationsRepositoryTest {
     @Autowired
     OperationsRepository operationsRepository;
 
-    AccountEntity account = new AccountEntity();
-    OperationsEntity operation = new OperationsEntity();
+    private AccountEntity createTestAccount(){
+        AccountEntity account = new AccountEntity();
+        account.setName("testAccount");
+        account.setAmount(new BigDecimal("100"));
+        return account;
+    }
 
-    @BeforeEach
-    public void BeforeTests(){
-        final String ACCOUNT_NAME = "testAccount";
-        BigDecimal initSum = new BigDecimal("0.0");
-
-        account.setName(ACCOUNT_NAME);
-        account.setAmount(initSum);
-
-        operation.setAccountEntity(account);
-        operation.setSummCredit(initSum);
+    private OperationsEntity createTestOperation(){
+        OperationsEntity operation = new OperationsEntity();
+        operation.setAccountEntity(createTestAccount());
+        operation.setSummCredit(new BigDecimal("100"));
+        return operation;
     }
 
     @Test
-    @Transactional
     void findAllByAccountEntity_Name() {
-        AccountEntity accountFromBase = accountRepository.save(account);
-        Assert.assertEquals(account, accountFromBase);
-        accountRepository.delete(accountFromBase);
+        AccountEntity account = createTestAccount();
+        accountRepository.save(account);
 
-        OperationsEntity operationFromBase = operationsRepository.save(operation);
-        Assert.assertEquals(operation, operationFromBase);
-        operationsRepository.delete(operationFromBase);
+        OperationsEntity operation = createTestOperation();
+        operationsRepository.save(operation);
+
+        List<OperationsEntity> operations = operationsRepository.findAllByAccountEntity_Name(account.getName());
+        Assert.assertTrue(operations.size() > 0);
+        for (OperationsEntity op:operations) {
+            operationsRepository.delete(op);
+        }
     }
 }
