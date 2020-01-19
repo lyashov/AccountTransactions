@@ -45,8 +45,6 @@ public class OperationsRestController {
             @RequestBody OperationJSON operationsJson) {
         logger.info("adding new operation");
         OperationsEntity operation = operationsService.addOperation(operationsJson);
-        logger.info("updating ammount");
-        accountService.updateAmount(operationsJson.getAccountName());
         return operation;
     }
 
@@ -61,7 +59,5 @@ public class OperationsRestController {
             @PathVariable Long id) {
         logger.info("deleting operation");
         operationsService.deleteById(accountName, id);
-        logger.info("updating ammount");
-        accountService.updateAmount(accountName);
     }
 }

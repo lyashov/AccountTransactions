@@ -7,6 +7,8 @@ import com.lyaev.accounts.repository.AccountRepository;
 import com.lyaev.accounts.repository.OperationsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -43,6 +45,7 @@ public class OperationsService {
             operation.setSummCredit(permSumm);
         }
         OperationsEntity operationsEntity = operationsRepository.save(operation);
+        accountService.updateAmount(accountName);
         return operationsEntity;
     }
 
@@ -60,5 +63,6 @@ public class OperationsService {
         if (operation.isPresent() && operation.get().getAccountEntity().getName().equals(accountName)) {
             operationsRepository.deleteById(id);
         }
+        accountService.updateAmount(accountName);
     }
 }
