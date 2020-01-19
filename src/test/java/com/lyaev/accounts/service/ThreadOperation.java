@@ -7,6 +7,8 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
@@ -37,9 +39,6 @@ public class ThreadOperation implements Runnable{
         operationJSON.setIsDebit(this.isDebit);
         operationJSON.setSumm(this.summ);
 
-        OperationsEntity operation = operationsService.addOperation(operationJSON);
-        BigDecimal accSum = accountService.getSummAccount(accountName);
-
-        System.out.println(operation + "AAAAAAAAAAAAAAAAAAAAAA" + accSum.doubleValue());
+        operationsService.addOperation(operationJSON);
     }
 }
