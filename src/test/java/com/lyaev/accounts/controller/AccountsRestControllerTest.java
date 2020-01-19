@@ -44,7 +44,6 @@ class AccountsRestControllerTest {
 
         account.setName(ACCOUNT_NAME);
         account.setAmount(initSum);
-        account.setDateOpen(new Date());
     }
 
     @Test

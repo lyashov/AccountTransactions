@@ -20,9 +20,10 @@ class AccountRepositoryTest {
     @Autowired
     AccountRepository accountRepository;
 
-    AccountEntity account = new AccountEntity();
+    AccountEntity account;
     @BeforeEach
     public void BeforeTests(){
+        account = new AccountEntity();
         final String ACCOUNT_NAME = "testAccount";
         BigDecimal initSum = new BigDecimal("0.0");
 
@@ -34,10 +35,8 @@ class AccountRepositoryTest {
     @Transactional
     void findByName() {
         accountRepository.save(account);
-        List<AccountEntity> accounts = accountRepository.findAll();
-        Assert.assertTrue(accounts.size() > 0);
-        for (AccountEntity acc : accounts) {
-            accountRepository.delete(acc);
-        }
+        AccountEntity accountFromBase = accountRepository.findByName(account.getName());
+        Assert.assertEquals(accountFromBase, account);
+        accountRepository.delete(accountFromBase);
     }
 }

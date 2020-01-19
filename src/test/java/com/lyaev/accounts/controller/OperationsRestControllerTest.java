@@ -86,7 +86,7 @@ class OperationsRestControllerTest {
         when(operationsService.addOperation(operationJSON)).thenReturn(operation);
 
         ObjectMapper objectMapper = new ObjectMapper();
-        String jsonRequest = objectMapper.writeValueAsString(operation);
+        String jsonRequest = objectMapper.writeValueAsString(operationJSON);
         String jsonResponse = objectMapper.writeValueAsString(operation);
 
         this.mockMvc.perform(
