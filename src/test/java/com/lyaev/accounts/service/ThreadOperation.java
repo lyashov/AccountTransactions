@@ -4,6 +4,9 @@ import com.lyaev.accounts.model.OperationJSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.math.BigDecimal;
 
 @Component
@@ -28,6 +31,7 @@ public class ThreadOperation implements Runnable{
     }
 
     @Override
+    @Transactional
     public void run() {
         operationJSON.setAccountName(accountName);
         operationJSON.setIsDebit(this.isDebit);
