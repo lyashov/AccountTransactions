@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -36,13 +37,13 @@ public class OperationsRestController {
 
     /**
      * URL example PUT http://localhost:8080/api/operations
-     * request body (json)  {"accountName":"accTest1","summ":500.5, "isDebit":1}
+     * request body (json)  {"accountName":"accTest1", "dateOperation":"31/12/2019" "summ":500.5, "isDebit":1}
      * Create a new operation. Update account's amount.
      */
     @Transactional(isolation= Isolation.REPEATABLE_READ)
     @PutMapping
     public OperationsEntity addOperation(
-            @RequestBody OperationJSON operationsJson) {
+            @RequestBody OperationJSON operationsJson) throws ParseException {
         logger.info("adding new operation");
         OperationsEntity operation = operationsService.addOperation(operationsJson);
         return operation;

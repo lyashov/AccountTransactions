@@ -11,7 +11,10 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +40,13 @@ public class OperationsService {
         OperationsEntity operation = new OperationsEntity();
         AccountEntity account = accountRepository.findByName(accountName);
         operation.setAccountEntity(account);
+        Date dateOperation = null;
+        try {
+            dateOperation = new SimpleDateFormat("dd/MM/yyyy").parse(operationJSON.getDateOperation());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        operation.setDateOperation(dateOperation);
         BigDecimal sumOperation = operationJSON.getSumm();
         if (operationJSON.getIsDebit() == 1)
             operation.setSummDebit(sumOperation);

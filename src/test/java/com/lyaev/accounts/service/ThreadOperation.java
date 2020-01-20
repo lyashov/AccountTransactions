@@ -1,6 +1,7 @@
 package com.lyaev.accounts.service;
 
 import com.lyaev.accounts.model.OperationJSON;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -32,6 +33,7 @@ public class ThreadOperation implements Runnable{
         operationJSON.setAccountName(accountName);
         operationJSON.setIsDebit(this.isDebit);
         operationJSON.setSumm(this.summ);
+        operationJSON.setDateOperation("10/01/2020");
 
         operationsService.addOperation(operationJSON);
     }

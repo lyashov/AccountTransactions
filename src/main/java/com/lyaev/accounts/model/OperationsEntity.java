@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Data
 @Entity
@@ -23,4 +24,7 @@ public class OperationsEntity {
 
     @Column(name = "SUMM_CREDIT", precision = 19, scale = 6)
     private BigDecimal summCredit;
+
+    @Column(name = "DATE_OPERATION")
+    private Date dateOperation;
 }
